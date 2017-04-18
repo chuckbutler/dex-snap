@@ -1,0 +1,59 @@
+name: dex
+version: '2.4.0'
+summary: Dex is an OpenID Connect server that connects to other identity providers.
+description: |
+ Dex is an OpenID Connect server that connects to other identity
+ providers. Clients use a standards-based OAuth2 flow to login users,
+ while the actual authentication is performed by established user
+ management systems such as Google, GitHub, FreeIPA, etc.
+grade: devel
+confinement: devmode
+
+apps:
+    dex:
+        command: dex
+        plugs:
+            - network
+            - network-bind
+        aliases:
+            - dex
+    example-app:
+        command: example-app
+        plugs:
+            - network
+            - network-bind
+    daemon:
+        command: snap-wrap.sh
+        plugs:
+            - network
+            - network-bind
+        daemon: simple
+
+parts:
+  dex:
+    plugin: dump
+    source: ./
+    organize:
+        '*yaml': config/
+    build-packages:
+        - build-essential
+        - wget
+    prepare: |
+        wget https://storage.googleapis.com/golang/go1.7.4.linux-amd64.tar.gz
+        tar -xvf go1.7.4.linux-amd64.tar.gz
+        mv go /usr/local
+        export GOROOT=/usr/local/go
+        export GOPATH=$PWD
+        export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+        go get github.com/coreos/dex
+        cd src/github.com/coreos/dex && make
+        cp bin/dex ../../../../bin/dex
+        cp bin/example-app ../../../../
+        rm -rf src pkg
+        rm -f go1.7.4.linux-amd64.tar.gz
+  daemon:
+    plugin: dump
+    source: .
+    stage:
+        - bin/snap-wrap.sh
+        - config.example.yaml
