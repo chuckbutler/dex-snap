@@ -7,7 +7,7 @@ description: |
  while the actual authentication is performed by established user
  management systems such as Google, GitHub, FreeIPA, etc.
 grade: devel
-confinement: devmode
+confinement: strict
 
 apps:
     dex:
