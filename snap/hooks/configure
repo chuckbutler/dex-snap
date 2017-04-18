@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# Executes on 'install', 'upgrade', and 'configure' steps
+
+echo "Copying web templates to ${SNAP_DATA}"
+cp -r ${SNAP}/web ${SNAP_DATA}/web
