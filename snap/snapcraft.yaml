@@ -47,8 +47,9 @@ parts:
         export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
         go get github.com/coreos/dex
         cd src/github.com/coreos/dex && make
-        cp bin/dex ../../../../bin/dex
+        cp bin/dex ../../../../
         cp bin/example-app ../../../../
+        cp -r web ../../../../
         rm -rf src pkg
         rm -f go1.7.4.linux-amd64.tar.gz
   daemon:
