@@ -46,7 +46,7 @@ parts:
         export GOPATH=$PWD
         export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
         go get github.com/coreos/dex
-        cd src/github.com/coreos/dex && make
+        cd src/github.com/coreos/dex && git checkout v2.4.0 && make
         cp bin/dex ../../../../
         cp bin/example-app ../../../../
         cp -r web ../../../../
